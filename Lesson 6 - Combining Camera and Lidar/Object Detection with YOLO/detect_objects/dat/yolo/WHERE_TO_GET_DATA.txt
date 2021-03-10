@@ -1,0 +1,3 @@
+I did not want to include the data here in my copy of the repo.
+Get it from the original assignments here:
+https://github.com/udacity/SFND_Camera
