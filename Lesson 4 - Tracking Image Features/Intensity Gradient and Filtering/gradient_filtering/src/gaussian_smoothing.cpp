@@ -13,12 +13,16 @@ void gaussianSmoothing1()
     img = cv::imread("../images/img1gray.png");
 
     // create filter kernel
-    float gauss_data[25] = {1, 4, 7, 4, 1,
+    constexpr int KERNEL_SIZE = 25;
+    float gauss_data[KERNEL_SIZE] = {1, 4, 7, 4, 1,
                             4, 16, 26, 16, 4,
                             7, 26, 41, 26, 7,
                             4, 16, 26, 16, 4,
                             1, 4, 7, 4, 1};
     cv::Mat kernel = cv::Mat(5, 5, CV_32F, gauss_data);
+    float gauss_data_sum = cv::sum(kernel)[0];
+    for (int i=0; i < KERNEL_SIZE; ++i)
+        gauss_data[i] /= gauss_data_sum;   
 
     // apply filter
     cv::Mat result;

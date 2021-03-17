@@ -8,6 +8,17 @@
 
 using namespace std;
 
+double minXWithinLane(const std::vector<LidarPoint> & lidarPoints, double laneWidthHalf) {
+    double minX = 1e9;
+    for (auto it = lidarPoints.begin(); it != lidarPoints.end(); ++it)
+    {
+        if ((it->y < -laneWidthHalf) || (it->y > laneWidthHalf))
+            continue;
+        minX = minX > it->x ? it->x : minX;
+    }
+    return minX;
+}
+
 void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
                      std::vector<LidarPoint> &lidarPointsCurr, double &TTC)
 {
@@ -16,16 +27,8 @@ void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev,
     double laneWidth = 4.0; // assumed width of the ego lane
 
     // find closest distance to Lidar points within ego lane
-    double minXPrev = 1e9, minXCurr = 1e9;
-    for (auto it = lidarPointsPrev.begin(); it != lidarPointsPrev.end(); ++it)
-    {
-        minXPrev = minXPrev > it->x ? it->x : minXPrev;
-    }
-
-    for (auto it = lidarPointsCurr.begin(); it != lidarPointsCurr.end(); ++it)
-    {
-        minXCurr = minXCurr > it->x ? it->x : minXCurr;
-    }
+    double minXPrev = minXWithinLane(lidarPointsPrev, laneWidth/2.0);
+    double minXCurr = minXWithinLane(lidarPointsCurr, laneWidth/2.0);
 
     // compute TTC from both measurements
     TTC = minXCurr * dT / (minXPrev - minXCurr);

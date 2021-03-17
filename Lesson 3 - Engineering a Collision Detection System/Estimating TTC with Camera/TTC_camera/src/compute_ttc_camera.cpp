@@ -1,5 +1,6 @@
 #include <iostream>
 #include <numeric>
+#include <algorithm>
 #include <opencv2/core.hpp>
 
 // these includes provide the data structures for managing 3D Lidar points and 2D keypoints
@@ -55,12 +56,22 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
     }
 
     // compute camera-based TTC from distance ratios
-    double meanDistRatio = std::accumulate(distRatios.begin(), distRatios.end(), 0.0) / distRatios.size();
+    // double meanDistRatio = std::accumulate(distRatios.begin(), distRatios.end(), 0.0) / distRatios.size();
 
-    double dT = 1 / frameRate;
-    TTC = -dT / (1 - meanDistRatio);
+    // double dT = 1 / frameRate;
+    // TTC = -dT / (1 - meanDistRatio);
 
     // TODO: STUDENT TASK (replacement for meanDistRatio)
+    std::sort(distRatios.begin(), distRatios.end());
+    double medianDistRatio;
+    if (distRatios.size()%2 == 1)
+        medianDistRatio = distRatios[distRatios.size()/2];
+    else
+        medianDistRatio =  0.5 * (distRatios[distRatios.size()/2] + distRatios[distRatios.size()/2 - 1]);
+
+    double dT = 1 / frameRate;
+    TTC = -dT / (1 - medianDistRatio);
+
 }
 
 int main()
