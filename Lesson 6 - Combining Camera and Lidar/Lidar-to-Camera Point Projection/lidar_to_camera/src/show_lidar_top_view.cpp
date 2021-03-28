@@ -22,14 +22,14 @@ void showLidarTopview()
     // plot Lidar points into image
     for (auto it = lidarPoints.begin(); it != lidarPoints.end(); ++it)
     {
-        float xw = (*it).x; // world position in m with x facing forward from sensor
+        float xw = (*it).x; // world position in m with x facing forward from sensor   
         float yw = (*it).y; // world position in m with y facing left from sensor
 
         int y = (-xw * imageSize.height / worldSize.height) + imageSize.height;
         int x = (-yw * imageSize.width / worldSize.width) + imageSize.width / 2;
 
-
-        cv::circle(topviewImg, cv::Point(x, y), 5, cv::Scalar(0, 0, 255), -1);
+        double green_level = xw / worldSize.height * 255;
+        cv::circle(topviewImg, cv::Point(x, y), 5, cv::Scalar(0.0, green_level, 255.0 - green_level), -1);
         
         // TODO: 
         // 1. Change the color of the Lidar points such that 
