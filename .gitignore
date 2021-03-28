@@ -1,0 +1,19 @@
+*build/
+*.vscode/
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0000.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0001.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0002.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0003.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0004.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0005.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0006.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0007.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0008.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/C51_LidarPts_0009.dat
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/calib_cam_to_cam.txt
+Lesson 6 - Combining Camera and Lidar/Lidar-to-Camera Point Projection/lidar_to_camera/dat/calib_velo_to_cam.txt
+Lesson 6 - Combining Camera and Lidar/Object Detection with YOLO/detect_objects/dat/yolo/coco.names
+Lesson 6 - Combining Camera and Lidar/Object Detection with YOLO/detect_objects/dat/yolo/yolov3-tiny.cfg
+Lesson 6 - Combining Camera and Lidar/Object Detection with YOLO/detect_objects/dat/yolo/yolov3-tiny.weights
+Lesson 6 - Combining Camera and Lidar/Object Detection with YOLO/detect_objects/dat/yolo/yolov3.cfg
+Lesson 6 - Combining Camera and Lidar/Object Detection with YOLO/detect_objects/dat/yolo/yolov3.weights
