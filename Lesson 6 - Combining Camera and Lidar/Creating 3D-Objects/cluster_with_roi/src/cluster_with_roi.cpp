@@ -81,7 +81,7 @@ void clusterLidarWithROI(std::vector<BoundingBox> &boundingBoxes, std::vector<Li
     cv::Mat X(4, 1, cv::DataType<double>::type);
     cv::Mat Y(3, 1, cv::DataType<double>::type);
 
-    for (auto it1 = lidarPoints.begin(); it1 != lidarPoints.end(); ++it1)
+    for (auto it1 = lidarPoints.begin(); it1 != lidarPoints.end();)
     {
         // assemble vector for matrix-vector-multiplication
         X.at<double>(0, 0) = it1->x;
@@ -97,26 +97,37 @@ void clusterLidarWithROI(std::vector<BoundingBox> &boundingBoxes, std::vector<Li
 
         double shrinkFactor = 0.10;
         vector<vector<BoundingBox>::iterator> enclosingBoxes; // pointers to all bounding boxes which enclose the current Lidar point
-        for (vector<BoundingBox>::iterator it2 = boundingBoxes.begin(); it2 != boundingBoxes.end(); ++it2)
+
+        int num_boxes_pt_is_in = 0; // counter
+        BoundingBox * box_pt_is_in = nullptr;
+
+        for (auto & box : boundingBoxes)
         {
             // shrink current bounding box slightly to avoid having too many outlier points around the edges
             cv::Rect smallerBox;
-            smallerBox.x = (*it2).roi.x + shrinkFactor * (*it2).roi.width / 2.0;
-            smallerBox.y = (*it2).roi.y + shrinkFactor * (*it2).roi.height / 2.0;
-            smallerBox.width = (*it2).roi.width * (1 - shrinkFactor);
-            smallerBox.height = (*it2).roi.height * (1 - shrinkFactor);
+            smallerBox.x = box.roi.x + shrinkFactor * box.roi.width / 2.0;
+            smallerBox.y = box.roi.y + shrinkFactor * box.roi.height / 2.0;
+            smallerBox.width = box.roi.width * (1 - shrinkFactor);
+            smallerBox.height = box.roi.height * (1 - shrinkFactor);
 
-            // check wether point is within current bounding box
+            // check whether point is within current bounding box
             if (smallerBox.contains(pt))
             {
-                it2->lidarPoints.push_back(*it1);
-                lidarPoints.erase(it1);
-                it1--;
-                break;
+                box_pt_is_in = &box;
+                ++num_boxes_pt_is_in;
+                if (num_boxes_pt_is_in > 1)
+                    break;
             }
-        } // eof loop over all bounding boxes
+        } // end of loop over all bounding boxes
         
-      // TODO - check wether point has been enclosed by one or by multiple boxes. 
+        if (num_boxes_pt_is_in == 1) {
+            box_pt_is_in->lidarPoints.push_back(*it1);
+            it1 = lidarPoints.erase(it1);
+        }
+        else
+            ++it1;
+
+      // TODO - check whether point has been enclosed by one or by multiple boxes. 
       // Accordingly, add Lidar point to bounding box
 
     } // end of loop over all Lidar points
