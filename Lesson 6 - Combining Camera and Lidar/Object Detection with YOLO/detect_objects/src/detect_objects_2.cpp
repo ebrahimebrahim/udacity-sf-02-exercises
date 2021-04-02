@@ -13,7 +13,7 @@ using namespace std;
 void detectObjects2()
 {
     // load image from file
-    cv::Mat img = cv::imread("../images/s_thrun.jpg");
+    cv::Mat img = cv::imread("../images/jej.jpg");
 
     // load class names from file
     string yoloBasePath = "../dat/yolo/";
@@ -34,7 +34,7 @@ void detectObjects2()
     // generate 4D blob from input image
     cv::Mat blob;
     double scalefactor = 1/255.0;
-    cv::Size size = cv::Size(416, 416);
+    cv::Size size = cv::Size(512, 512);
     cv::Scalar mean = cv::Scalar(0,0,0);
     bool swapRB = false;
     bool crop = false;
@@ -55,6 +55,19 @@ void detectObjects2()
     vector<cv::Mat> netOutput;
     net.setInput(blob);
     net.forward(netOutput, names);
+
+    /* Now netOutput should be a vector of size C (number of blob classes)
+    
+    I think C=3 here. https://opencv-tutorial.readthedocs.io/en/latest/yolo/yolo.html#scales-for-handling-different-sizes
+    There's large objects, medium objects, and then small objects.
+    So for example netOutput[0] should be the matrix representing the network output for large objects.
+
+    Each row of netOutput[0] represents a bounding box, and there will be 85 columns within it.
+
+    The first four columns give the center in x,
+    the center in y as well as the width and height of the associated bounding box.
+    The fifth column represents the trust or confidence that the respective bounding box actually encloses an object.
+    The remaining 80 columns of the matrix are the confidence associated with each of the classes contained in the coco.cfg file. */
 
     // Scan through all bounding boxes and keep only the ones with high confidence
     float confThreshold = 0.20;
@@ -88,6 +101,10 @@ void detectObjects2()
             }
         }
     }
+
+    // this was helping me inspect things:
+    // for (int i = 0; i < confidences.size();++i)
+    //     std::cout << classIds[i] << " - "<<  confidences[i] << " - " << boxes[i] << std::endl;
 
     // perform non-maxima suppression
     float nmsThreshold = 0.4;  // Non-maximum suppression threshold

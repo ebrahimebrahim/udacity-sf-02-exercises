@@ -119,7 +119,7 @@ void clusterLidarWithROI(std::vector<BoundingBox> &boundingBoxes, std::vector<Li
       // TODO - check wether point has been enclosed by one or by multiple boxes. 
       // Accordingly, add Lidar point to bounding box
 
-    } // eof loop over all Lidar points
+    } // end of loop over all Lidar points
 }
 
 int main()
